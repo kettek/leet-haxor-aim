@@ -2,6 +2,7 @@ window.addEventListener('load', function() {
 /* ==== Private Variables ==== */
 var eShoot = document.getElementById('shoot');
 
+var lAnimationFrame;
 var lCtx            = eShoot.getContext('2d');
 
 var lTargetTime     = 15000;
@@ -28,6 +29,18 @@ function reset() {
   lCircles = [];
 }
 
+function draw() {
+  // Clear our canvas.
+  lCtx.clearRect(0, 0, eShoot.width, eShoot.height);
+  // Render our circles.
+  for (var i = 0; i < lCircles.length; i++) {
+    lCircles[i].draw();
+  }
+  // Draw our UI information.
+  lCtx.fillStyle = 'white';
+  lCtx.fillText(lHitCount + ' hits; ' + lMissCount + ' misses; ' + lLostCount + ' lost', 100, 100);
+}
+
 function loop(pTime) {
   adjust();
   lCurrentTime = pTime;
@@ -48,27 +61,28 @@ function loop(pTime) {
     }
   }
 
-  // Render our circles.
-  for (var i = 0; i < lCircles.length; i++) {
-    lCircles[i].draw();
-  }
-
-  // Draw our UI information.
-  lCtx.fillStyle = 'white';
-  lCtx.fillText(lHitCount + ' hits; ' + lMissCount + ' misses; ' + lLostCount + ' lost', 100, 100);
+  draw();
 
   // Keep on looping.
   lLastTime = lCurrentTime;
-  if (lRunning && lCurrentTime <= lStartTime+lTargetTime) window.requestAnimationFrame(loop);
+  if (lRunning && lCurrentTime <= lStartTime+lTargetTime) lAnimationFrame = window.requestAnimationFrame(loop);
 }
 
 function createCircle() {
-  var x, y, ran;
+  var x, y;
 
-  ran = new Uint32Array(2);
-  window.crypto.getRandomValues(ran);
-  x = lMaxSize/2 + ran[0] % (eShoot.width - lMaxSize);
-  y = lMaxSize/2 + ran[1] % (eShoot.height - lMaxSize);
+  if (window.crypto) {
+    var ran = new Uint32Array(2);
+    window.crypto.getRandomValues(ran);
+    x = lMaxSize/2 + ran[0] % (eShoot.width - lMaxSize);
+    y = lMaxSize/2 + ran[1] % (eShoot.height - lMaxSize);
+  } else {
+    var min = Math.ceil(lMaxSize/2);
+    var maxW = Math.floor(eShoot.width - lMaxSize);
+    var maxH = Math.floor(eShoot.height - lMaxSize);
+    x = Math.floor(Math.random() * (maxW - min + 1)) + min;
+    y = Math.floor(Math.random() * (maxH - min + 1)) + min;
+  }
 
   lCircles.push(new Circle(x, y, lMaxSize, lAliveTime));
   lLastCreate = lCurrentTime;
@@ -93,8 +107,9 @@ window.addEventListener('keydown', function(e) {
     reset();
     if (!lRunning) {
       lRunning = true;
-      window.requestAnimationFrame(loop);
+      lAnimationFrame = window.requestAnimationFrame(loop);
     } else {
+      window.cancelAnimationFrame(lAnimationFrame)
       lRunning = false;
     }
   }
@@ -106,13 +121,13 @@ window.addEventListener('keydown', function(e) {
 window.addEventListener('resize', adjust);
 
 /* ==== Primitives ==== */
-function Circle(x=0, y=0, maxSize=100, growTime=2000) {
-  this.x = x;
-  this.y = y;
-  this.growTime = growTime;
+function Circle(x, y, maxSize, growTime) {
+  this.x = x || 0;
+  this.y = y || 0;
+  this.growTime = growTime || 2000;
   this.growth = 0;
   this.size = 0;
-  this.maxSize = maxSize;
+  this.maxSize = maxSize || 100;
   this.remove = false;
 }
 Circle.prototype.step = function(time) {
@@ -129,8 +144,9 @@ Circle.prototype.step = function(time) {
   return true;
 }
 Circle.prototype.draw = function() {
-  lCtx.closePath();
+  lCtx.beginPath();
   lCtx.arc(this.x, this.y, this.size, 0, (Math.PI/180)*360);
+  lCtx.closePath();
   lCtx.fillStyle = "yellow";
   lCtx.fill();
 }
@@ -142,6 +158,7 @@ Circle.prototype.collision = function(x, y) {
   return false;
 }
 
+adjust();
 reset();
-loop();
+draw();
 });
