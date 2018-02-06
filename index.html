@@ -4,10 +4,40 @@
 <title>leet-haxor-aim</title>
 <link rel='stylesheet' type='text/css' href='style.css'>
 <script type='text/javascript' src='index.js'></script>
+<meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0'/>
 </head>
 <body>
 <div id='container'>
   <canvas id='shoot'></canvas>
+  <div id='settings'>
+    <fieldset>
+      <legend>Target Spawnrate</legend>
+      <input id='settings-spawnrate' type='number' value='750' min='10' max='10000'>
+      <button onclick='var el = document.getElementById("settings-spawnrate");el.value=1500;el.dispatchEvent(new Event("change"))'>slow</button>
+      <button onclick='var el = document.getElementById("settings-spawnrate");el.value=750;el.dispatchEvent(new Event("change"))'>medium</button>
+      <button onclick='var el = document.getElementById("settings-spawnrate");el.value=375;el.dispatchEvent(new Event("change"))'>fast</button>
+    </fieldset>
+    <fieldset>
+      <legend>Target Lifetime</legend>
+      <input id='settings-lifetime' type='number' value='3000' min='10' max='10000'>
+      <button onclick='var el = document.getElementById("settings-lifetime");el.value=5000;el.dispatchEvent(new Event("change"))'>slow</button>
+      <button onclick='var el = document.getElementById("settings-lifetime");el.value=3000;el.dispatchEvent(new Event("change"))'>medium</button>
+      <button onclick='var el = document.getElementById("settings-lifetime");el.value=1000;el.dispatchEvent(new Event("change"))'>fast</button>
+    </fieldset>
+    <fieldset>
+      <legend>Game Length</legend>
+      <input id='settings-length' type='number' value='15' min='10' max='3600'>
+      <button onclick='var el = document.getElementById("settings-length");el.value=5;el.dispatchEvent(new Event("change"))'>short</button>
+      <button onclick='var el = document.getElementById("settings-length");el.value=15;el.dispatchEvent(new Event("change"))'>medium</button>
+      <button onclick='var el = document.getElementById("settings-length");el.value=30;el.dispatchEvent(new Event("change"))'>long</button>
+    </fieldset>
+    <button id='settings-go'>gogogo!</button>
+  </div>
+  <div id='hud'>
+    <div id='hud-hits'><div class='text'></div></div>
+    <div id='hud-misses'><div class='text'></div></div>
+    <div id='hud-lost'><div class='text'></div></div>
+  </div>
 </div>
 </body>
 </html>

@@ -19,4 +19,41 @@ canvas {
   padding: 0; margin: 0;
   position: absolute; top: 0; left: 0;
   background: black;
+  z-index: 5;
+}
+
+#settings {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: block;
+  z-index: 15;
+  color: #999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2vmin;
+}
+#settings fieldset {
+  margin: 1vmin;
+}
+#settings input, #settings button {
+  padding: 1vmin;
+  font-size: 3vmin;
+}
+
+#hud {
+  position: absolute; top: 0; left: 0;
+  display: block;
+  z-index: 10;
+}
+
+#hud-hits {
+  color: green;
+}
+#hud-misses {
+  color: yellow;
+}
+#hud-lost {
+  color: red;
 }

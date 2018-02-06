@@ -1,6 +1,19 @@
 window.addEventListener('load', function() {
 /* ==== Private Variables ==== */
-var eShoot = document.getElementById('shoot');
+var eShoot      = document.getElementById('shoot');
+var eHud        = document.getElementById('hud');
+var eHudHits    = document.getElementById('hud-hits');
+var eHudMisses  = document.getElementById('hud-misses');
+var eHudLost    = document.getElementById('hud-lost');
+var eSettings   = document.getElementById('settings');
+var eSettingsSpawnrate  = document.getElementById('settings-spawnrate');
+    eSettingsSpawnrate.addEventListener('change', function(e) { lCreateRate = parseFloat(eSettingsSpawnrate.value) });
+var eSettingsLifetime   = document.getElementById('settings-lifetime');
+    eSettingsLifetime.addEventListener('change', function(e) { lAliveTime = parseFloat(eSettingsLifetime.value) });
+var eSettingsLength     = document.getElementById('settings-length');
+    eSettingsLength.addEventListener('change', function(e) { lTargetTime = parseFloat(eSettingsLength.value)*1000 });
+var eSettingsGo         = document.getElementById('settings-go');
+    eSettingsGo.addEventListener('click', function(e) { hideSettings(); showHud(); start(); });
 
 var lAnimationFrame;
 var lCtx            = eShoot.getContext('2d');
@@ -18,15 +31,40 @@ var lStartTime, lLastTime, lCurrentTime;
 var lLastCreate;
 
 /* ==== Core Logic ==== */
+function showHud() {
+  eHud.style.display = '';
+}
+function hideHud() {
+  eHud.style.display = 'none';
+}
+function showSettings() {
+  eSettings.style.display = '';
+}
+function hideSettings() {
+  eSettings.style.display = 'none';
+}
+
 function adjust() {
   eShoot.width = eShoot.parentNode.clientWidth;
   eShoot.height = eShoot.parentNode.clientHeight;
+}
+
+function sync() {
+  eHudHits.innerText = lHitCount;
+  eHudMisses.innerText = lMissCount;
+  eHudLost.innerText = lLostCount;
 }
 
 function reset() {
   lStartTime = lLastTime = lCurrentTime = lLastCreate = performance.now();
   lHitCount = lLostCount = lMissCount = 0;
   lCircles = [];
+}
+
+function start() {
+  reset();
+  lRunning = true;
+  lAnimationFrame = window.requestAnimationFrame(loop);
 }
 
 function draw() {
@@ -36,9 +74,6 @@ function draw() {
   for (var i = 0; i < lCircles.length; i++) {
     lCircles[i].draw();
   }
-  // Draw our UI information.
-  lCtx.fillStyle = 'white';
-  lCtx.fillText(lHitCount + ' hits; ' + lMissCount + ' misses; ' + lLostCount + ' lost', 100, 100);
 }
 
 function loop(pTime) {
@@ -62,6 +97,7 @@ function loop(pTime) {
   }
 
   draw();
+  sync();
 
   // Keep on looping.
   lLastTime = lCurrentTime;
@@ -90,10 +126,12 @@ function createCircle() {
 
 /* ==== Browser Events ==== */
 eShoot.addEventListener('contextmenu', function(e) { e.preventDefault() });
-eShoot.addEventListener('mousedown', function(e) {
+function tapHandler(e) {
   e.preventDefault();
+  var x = e.clientX || e.touches[0].clientX;
+  var y = e.clientY || e.touches[0].clientY;
   for (var i = 0; i < lCircles.length; i++) {
-    if (lCircles[i].collision(e.clientX, e.clientY)) {
+    if (lCircles[i].collision(x, y)) {
       lCircles[i].remove = true;
       lHitCount++;
       if (lCircles.length-1 == 0) createCircle();
@@ -101,13 +139,14 @@ eShoot.addEventListener('mousedown', function(e) {
     }
   }
   lMissCount++;
-});
+}
+eShoot.addEventListener('touchstart', tapHandler);
+eShoot.addEventListener('mousedown', tapHandler);
 window.addEventListener('keydown', function(e) {
   if (e.which == 32) {
     reset();
     if (!lRunning) {
-      lRunning = true;
-      lAnimationFrame = window.requestAnimationFrame(loop);
+      start();
     } else {
       window.cancelAnimationFrame(lAnimationFrame)
       lRunning = false;
@@ -161,4 +200,5 @@ Circle.prototype.collision = function(x, y) {
 adjust();
 reset();
 draw();
+sync();
 });
