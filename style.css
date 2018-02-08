@@ -5,6 +5,7 @@
 html, body {
   margin: 0; padding: 0;
   width: 100%; height: 100%;
+  font-family: 'VT323', monospace;
 }
 
 #container {
@@ -12,14 +13,14 @@ html, body {
   display: block;
   width: 100%;
   height: 100%;
-  user-select: none;
-  cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADAQMAAABs5if8AAAABlBMVEUAawDzIrXgvjM5AAAAAXRSTlMAQObYZgAAAA5JREFUCNdjcGBYwOAAAANmASGj+tqfAAAAAElFTkSuQmCC'), crosshair;
 }
 canvas {
   padding: 0; margin: 0;
   position: absolute; top: 0; left: 0;
   background: black;
   z-index: 5;
+  user-select: none;
+  cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADAQMAAABs5if8AAAABlBMVEUAawDzIrXgvjM5AAAAAXRSTlMAQObYZgAAAA5JREFUCNdjcGBYwOAAAANmASGj+tqfAAAAAElFTkSuQmCC'), crosshair;
 }
 
 #settings {
@@ -32,7 +33,7 @@ canvas {
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
-  font-size: 2vmin;
+  font-size: 3vmin;
 }
 
 #settings > fieldset {
@@ -48,9 +49,20 @@ canvas {
 }
 #settings > fieldset > legend {
   padding-top: 1vmin;
-  font-size: 5vmin;
+  font-size: 10vmin;
   color: #660f33;
   transition: all 0.5s ease;
+  user-select: none;
+  cursor: pointer;
+}
+#settings > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  height: auto;
 }
 
 #settings > fieldset.focused {
@@ -68,7 +80,16 @@ canvas {
 }
 #settings input, #settings button {
   padding: 1vmin;
-  font-size: 3vmin;
+  font-size: 4vmin;
+  font-family: 'VT323', monospace;
+}
+
+input.milliseconds {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><text text-anchor="middle" x="70%" y="90%" opacity="0.25" font-size="150vmin" font-family="monospace" fill="black">ms</text></svg>')
+}
+
+input.seconds {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><text text-anchor="middle" x="80%" y="90%" opacity="0.25" font-size="150vmin" font-family="monospace" fill="black">s</text></svg>')
 }
 
 #hud {

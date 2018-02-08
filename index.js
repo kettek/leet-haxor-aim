@@ -18,9 +18,6 @@ var lCtx            = eShoot.getContext('2d');
 
 var lSelectedMode   = '';
 
-var lTargetTime     = 15000;
-var lCreateRate     = 750;
-var lAliveTime      = 3000;
 var lMaxSize        = 30;
 
 var lRunning        = false;
@@ -47,16 +44,13 @@ var lModes = {
 
 // Do some initial setup for page elements.
 {
-  eSettingsSpawnrate.addEventListener('change', function(e) { lCreateRate = parseFloat(eSettingsSpawnrate.value) });
-  eSettingsLifetime.addEventListener('change', function(e) { lAliveTime = parseFloat(eSettingsLifetime.value) });
-  eSettingsLength.addEventListener('change', function(e) { lTargetTime = parseFloat(eSettingsLength.value)*1000 });
   eSettingsGo.addEventListener('click', function(e) { hideSettings(); showHud(); start(); });
 
   var c = eSettings.getElementsByTagName('FIELDSET');
   for (var i = 0; i < c.length; i++) {
     if (c[i].id.indexOf("mode-") != -1) {
       eSettingsModes.push(c[i]);
-      if (i != 0) {
+      if (i == 0) {
         showFieldset(c[i]);
         lSelectedMode = c[i].id;
       } else {
@@ -88,6 +82,34 @@ function showSettings() {
 function hideSettings() {
   eSettings.style.display = 'none';
 }
+function getSetting(name) {
+  var els = eSettings.getElementsByTagName('input');
+  var vals = [];
+  for (var i = 0; i < els.length; i++) {
+    if (els[i].name.indexOf('settings-'+name) !== -1) {
+      var val = parseFloat(els[i].value);
+      if (vals[vals.length-1] && val == vals[vals.length-1]) {
+      } else {
+        vals.push(val);
+      }
+    }
+  }
+  var total = 0;
+  for (var i = 0; i < vals.length; i++) {
+    total += vals[i];
+  }
+  return total / vals.length;
+}
+function setSetting(name, value) {
+  var els = eSettings.getElementsByTagName('input');
+  for (var i = 0; i < els.length; i++) {
+    if (els[i].name.indexOf('settings-'+name) !== -1) {
+      els[i].value = value;
+      els[i].dispatchEvent(new Event('change'));
+    }
+  }
+}
+window.setSetting = setSetting;
 function hideFieldset(target) {
   for (var j = 0; j < target.children.length; j++) {
     if (target.children[j].tagName != 'LEGEND') {
@@ -143,7 +165,7 @@ function loop(pTime) {
   var elapsedTime = lCurrentTime - lLastTime;
 
   // Create a new circle if enough time has elapsed.
-  if (lCurrentTime >= lLastCreate + lCreateRate) {
+  if (lCurrentTime >= lLastCreate + getSetting('spawnrate')) {
     createCircle();
   }
 
@@ -162,7 +184,7 @@ function loop(pTime) {
 
   // Keep on looping.
   lLastTime = lCurrentTime;
-  if (lRunning && lCurrentTime <= lStartTime+lTargetTime) lAnimationFrame = window.requestAnimationFrame(loop);
+  if (lRunning && lCurrentTime <= lStartTime+(getSetting('length')*1000)) lAnimationFrame = window.requestAnimationFrame(loop);
 }
 
 function createCircle() {
@@ -181,7 +203,7 @@ function createCircle() {
     y = Math.floor(Math.random() * (maxH - min + 1)) + min;
   }
 
-  lCircles.push(new Circle(x, y, lMaxSize, lAliveTime));
+  lCircles.push(new Circle(x, y, lMaxSize, getSetting('lifetime')*1000));
   lLastCreate = lCurrentTime;
 }
 

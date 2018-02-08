@@ -4,44 +4,69 @@
 <title>leet-haxor-aim</title>
 <link rel='stylesheet' type='text/css' href='style.css'>
 <script type='text/javascript' src='index.js'></script>
+<link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
 <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0'/>
 </head>
 <body>
 <div id='container'>
   <canvas id='shoot'></canvas>
   <div id='settings'>
-    <fieldset id="mode-track">
-      <legend>Tracking</legend>
+    <fieldset id="mode-target">
+      <legend>Mouse Accuracy</legend>
       <fieldset>
-        <legend>Target Speed</legend>
-        <input id='settings-speed' type='number' value='750' min='10' max='10000'>
-        <button onclick='var el = document.getElementById("settings-speed");el.value=1;el.dispatchEvent(new Event("change"))'>slow</button>
-        <button onclick='var el = document.getElementById("settings-speed");el.value=5;el.dispatchEvent(new Event("change"))'>medium</button>
-        <button onclick='var el = document.getElementById("settings-speed");el.value=15;el.dispatchEvent(new Event("change"))'>fast</button>
+        <legend>Target Spawnrate (milliseconds)</legend>
+        <input name='settings-spawnrate' type='number' value='750' min='10' max='10000'>
+        <button onclick='setSetting("spawnrate", 1500)'>slow</button>
+        <button onclick='setSetting("spawnrate", 750)'>medium</button>
+        <button onclick='setSetting("spawnrate", 375)'>fast</button>
+      </fieldset>
+      <fieldset>
+        <legend>Target Lifetime (seconds)</legend>
+        <input name='settings-lifetime' type='number' value='3' min='0.100' max='10'>
+        <button onclick='setSetting("lifetime", 5.000)'>slow</button>
+        <button onclick='setSetting("lifetime", 3.000)'>medium</button>
+        <button onclick='setSetting("lifetime", 1.000)'>fast</button>
+      </fieldset>
+      <fieldset>
+        <legend>Game Length (seconds)</legend>
+        <input name='settings-length' type='number' value='15' min='10' max='3600'>
+        <button onclick='setSetting("length", 5)'>short</button>
+        <button onclick='setSetting("length", 15)'>medium</button>
+        <button onclick='setSetting("length", 30)'>long</button>
       </fieldset>
     </fieldset>
-    <fieldset id="mode-target">
-      <legend>Travel & Response</legend>
+    <fieldset id="mode-track">
+      <legend>Mouse Tracking</legend>
       <fieldset>
-        <legend>Target Spawnrate</legend>
-        <input id='settings-spawnrate' type='number' value='750' min='10' max='10000'>
-        <button onclick='var el = document.getElementById("settings-spawnrate");el.value=1500;el.dispatchEvent(new Event("change"))'>slow</button>
-        <button onclick='var el = document.getElementById("settings-spawnrate");el.value=750;el.dispatchEvent(new Event("change"))'>medium</button>
-        <button onclick='var el = document.getElementById("settings-spawnrate");el.value=375;el.dispatchEvent(new Event("change"))'>fast</button>
+        <legend>Target Speed</legend>
+        <input name='settings-speed' type='number' value='750' min='10' max='10000'>
+        <button onclick='setSetting("speed", 1)'>slow</button>
+        <button onclick='setSetting("speed", 5)'>medium</button>
+        <button onclick='setSetting("speed", 15)>fast</button>
+      </fieldset>
+    </fieldset>
+    <fieldset id="mode-response">
+      <legend>Reflex Time</legend>
+      <fieldset>
+        <legend>Target Size</legend>
+        <input name='settings-size' type='number' value='5' min='10' max='100'>%
+        <button onclick='setSetting("size", 2)'>small</button>
+        <button onclick='setSetting("size", 5)'>medium</button>
+        <button onclick='setSetting("size", 10)'>large</button>
       </fieldset>
       <fieldset>
-        <legend>Target Lifetime</legend>
-        <input id='settings-lifetime' type='number' value='3000' min='10' max='10000'>
-        <button onclick='var el = document.getElementById("settings-lifetime");el.value=5000;el.dispatchEvent(new Event("change"))'>slow</button>
-        <button onclick='var el = document.getElementById("settings-lifetime");el.value=3000;el.dispatchEvent(new Event("change"))'>medium</button>
-        <button onclick='var el = document.getElementById("settings-lifetime");el.value=1000;el.dispatchEvent(new Event("change"))'>fast</button>
+        <legend>Delay</legend>
+        <input id='settings-delay' type='number' value='750' min='10' max='10000'>
+        <button onclick='setSetting("delay", 1)'>slow</button>
+        <button onclick='setSetting("delay", 5)'>medium</button>
+        <button onclick='setSetting("delay", 15)'>fast</button>
       </fieldset>
       <fieldset>
-        <legend>Game Length</legend>
-        <input id='settings-length' type='number' value='15' min='10' max='3600'>
-        <button onclick='var el = document.getElementById("settings-length");el.value=5;el.dispatchEvent(new Event("change"))'>short</button>
-        <button onclick='var el = document.getElementById("settings-length");el.value=15;el.dispatchEvent(new Event("change"))'>medium</button>
-        <button onclick='var el = document.getElementById("settings-length");el.value=30;el.dispatchEvent(new Event("change"))'>long</button>
+        <legend>Randomization</legend>
+        <input id='settings-random' type='number' value='1.5' min='0.0' max='1.5'>
+        <button onclick='setSetting("random", 1.0)'>minor</button>
+        <button onclick='setSetting("random", 2.5)'>medium</button>
+        <button onclick='setSetting("random", 5.0)'>major</button>
       </fieldset>
     </fieldset>
     <button id='settings-go'>gogogo!</button>
