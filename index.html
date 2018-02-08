@@ -28,6 +28,13 @@
         <button onclick='setSetting("lifetime", 1.000)'>fast</button>
       </fieldset>
       <fieldset>
+        <legend>Target Size (percentage)</legend>
+        <input name='settings-size' type='number' value='5' min='10' max='100'>
+        <button onclick='setSetting("size", 2)'>small</button>
+        <button onclick='setSetting("size", 5)'>medium</button>
+        <button onclick='setSetting("size", 10)'>large</button>
+      </fieldset>
+      <fieldset>
         <legend>Game Length (seconds)</legend>
         <input name='settings-length' type='number' value='15' min='10' max='3600'>
         <button onclick='setSetting("length", 5)'>short</button>
@@ -48,8 +55,8 @@
     <fieldset id="mode-response">
       <legend>Reflex Time</legend>
       <fieldset>
-        <legend>Target Size</legend>
-        <input name='settings-size' type='number' value='5' min='10' max='100'>%
+        <legend>Target Size (percentage)</legend>
+        <input name='settings-size' type='number' value='5' min='10' max='100'>
         <button onclick='setSetting("size", 2)'>small</button>
         <button onclick='setSetting("size", 5)'>medium</button>
         <button onclick='setSetting("size", 10)'>large</button>

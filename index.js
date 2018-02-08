@@ -20,8 +20,7 @@ var lPy             = 1.0;
 var lPs             = 1.0;
 
 var lSelectedMode   = '';
-
-var lMaxSize        = 5;
+var lSettingsCache  = {};
 
 var lRunning        = false;
 var lCircles        = [];
@@ -86,6 +85,7 @@ function hideSettings() {
   eSettings.style.display = 'none';
 }
 function getSetting(name) {
+  if (lSettingsCache[name] !== undefined) return lSettingsCache[name];
   var els = eSettings.getElementsByTagName('input');
   var vals = [];
   for (var i = 0; i < els.length; i++) {
@@ -101,7 +101,8 @@ function getSetting(name) {
   for (var i = 0; i < vals.length; i++) {
     total += vals[i];
   }
-  return total / vals.length;
+  lSettingsCache[name] = total / vals.length;
+  return lSettingsCache[name];
 }
 function setSetting(name, value) {
   var els = eSettings.getElementsByTagName('input');
@@ -111,6 +112,7 @@ function setSetting(name, value) {
       els[i].dispatchEvent(new Event('change'));
     }
   }
+  delete lSettingsCache[name];
 }
 window.setSetting = setSetting;
 function hideFieldset(target) {
@@ -199,17 +201,17 @@ function createCircle() {
   if (window.crypto) {
     var ran = new Uint32Array(2);
     window.crypto.getRandomValues(ran);
-    x = lMaxSize/2 + ran[0] % (100 - lMaxSize);
-    y = lMaxSize/2 + ran[1] % (100 - lMaxSize);
+    x = getSetting('size')/2 + ran[0] % (100 - getSetting('size'));
+    y = getSetting('size')/2 + ran[1] % (100 - getSetting('size'));
   } else {
-    var min = Math.ceil(lMaxSize/2);
-    var maxW = Math.floor(100 - lMaxSize);
-    var maxH = Math.floor(100 - lMaxSize);
+    var min = Math.ceil(getSetting('size')/2);
+    var maxW = Math.floor(100 - getSetting('size'));
+    var maxH = Math.floor(100 - getSetting('size'));
     x = Math.floor(Math.random() * (maxW - min + 1)) + min;
     y = Math.floor(Math.random() * (maxH - min + 1)) + min;
   }
 
-  lCircles.push(new Circle(x, y, lMaxSize, getSetting('lifetime')*1000));
+  lCircles.push(new Circle(x, y, getSetting('size'), getSetting('lifetime')*1000));
   lLastCreate = lCurrentTime;
 }
 
