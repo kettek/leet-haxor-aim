@@ -2,6 +2,14 @@ window.addEventListener('load', function() {
 /* ==== Private Variables ==== */
 var eShoot      = document.getElementById('shoot');
 var eHud        = document.getElementById('hud');
+var eScoreboard = document.getElementById('scoreboard');
+var eScoreHits  = document.getElementById('scoreboard-hits');
+var eScoreHitsP = document.getElementById('scoreboard-hits-percentage');
+var eScoreMisses  = document.getElementById('scoreboard-misses');
+var eScoreMissesP = document.getElementById('scoreboard-misses-percentage');
+var eScoreLosses  = document.getElementById('scoreboard-losses');
+var eScoreLossesP = document.getElementById('scoreboard-losses-percentage');
+var eScoreHittime = document.getElementById('scoreboard-hittime');
 var eHudHits    = document.getElementById('hud-hits');
 var eHudMisses  = document.getElementById('hud-misses');
 var eHudLost    = document.getElementById('hud-lost');
@@ -11,7 +19,6 @@ var eSettingsModes = [];
 var eSettingsSpawnrate  = document.getElementById('settings-spawnrate');
 var eSettingsLifetime   = document.getElementById('settings-lifetime');
 var eSettingsLength     = document.getElementById('settings-length');
-var eSettingsGo         = document.getElementById('settings-go');
 
 var lAnimationFrame;
 var lCtx            = eShoot.getContext('2d');
@@ -28,6 +35,9 @@ var lCircles        = [];
 var lHitCount, lLostCount, lMissCount;
 var lStartTime, lLastTime, lCurrentTime;
 var lLastCreate;
+
+var lHitTimeLast = 0;
+var lHitTimes = [];
 
 var lModes = {
   'mode-track': {
@@ -46,7 +56,8 @@ var lModes = {
 
 // Do some initial setup for page elements.
 {
-  eSettingsGo.addEventListener('click', function(e) { hideSettings(); showHud(); start(); });
+  document.getElementById('settings-go').addEventListener('click', function(e) { hideSettings(); showHud(); start(); });
+  document.getElementById('scoreboard-go').addEventListener('click', function(e) { hideScoreboard(); showSettings(); });
 
   var c = eSettings.getElementsByTagName('FIELDSET');
   for (var i = 0; i < c.length; i++) {
@@ -69,7 +80,7 @@ var lModes = {
       }})(c[i]));
     }
   }
-  hideHud(); showSettings();
+  hideScoreboard(); hideHud(); showSettings();
 }
 /* ==== Core Logic ==== */
 function showHud() {
@@ -77,6 +88,24 @@ function showHud() {
 }
 function hideHud() {
   eHud.style.display = 'none';
+}
+function showScoreboard() {
+  eScoreHits.innerText = lHitCount;
+  eScoreHitsP.innerText = Math.round(lHitCount / (lHitCount+lLostCount) * 100) + '%';
+  eScoreMisses.innerText = lMissCount;
+  eScoreLosses.innerText = lLostCount;
+  eScoreLossesP.innerText = Math.round(lLostCount / (lLostCount+lHitCount) * 100) + '%';
+  {
+    var total = 0;
+    for (var i = 0; i < lHitTimes.length; i++) {
+      total += lHitTimes[i];
+    }
+    eScoreHittime.innerText = Math.round(total / lHitTimes.length) + 'ms';
+  }
+  eScoreboard.style.display = '';
+}
+function hideScoreboard() {
+  eScoreboard.style.display = 'none';
 }
 function showSettings() {
   eSettings.style.display = '';
@@ -149,6 +178,7 @@ function sync() {
 function reset() {
   lStartTime = lLastTime = lCurrentTime = lLastCreate = performance.now();
   lHitCount = lLostCount = lMissCount = 0;
+  lHitTimes = [];
   lCircles = [];
 }
 
@@ -192,7 +222,12 @@ function loop(pTime) {
 
   // Keep on looping.
   lLastTime = lCurrentTime;
-  if (lRunning && lCurrentTime <= lStartTime+(getSetting('length')*1000)) lAnimationFrame = window.requestAnimationFrame(loop);
+  if (lRunning && lCurrentTime <= lStartTime+(getSetting('length')*1000)) {
+    lAnimationFrame = window.requestAnimationFrame(loop);
+  } else {
+    hideHud();
+    showScoreboard();
+  }
 }
 
 function createCircle() {
@@ -225,6 +260,9 @@ function tapHandler(e) {
     if (lCircles[i].collision(x, y)) {
       lCircles[i].remove = true;
       lHitCount++;
+      var hit_time = performance.now();
+      lHitTimes.push(hit_time - (lHitTimes.length > 0 ? lHitTimeLast : lStartTime));
+      lHitTimeLast = hit_time;
       if (lCircles.length-1 == 0) createCircle();
       return;
     }
@@ -233,21 +271,6 @@ function tapHandler(e) {
 }
 eShoot.addEventListener('touchstart', tapHandler);
 eShoot.addEventListener('mousedown', tapHandler);
-window.addEventListener('keydown', function(e) {
-  if (e.which == 32) {
-    reset();
-    if (!lRunning) {
-      start();
-    } else {
-      window.cancelAnimationFrame(lAnimationFrame)
-      lRunning = false;
-    }
-  }
-  if (e.which == 70) {
-    var requestFullscreen = eShoot.requestFullscreen || eShoot.webkitRequestFullScreen || eShoot.mozRequestFullScreen || eShoot.msRequestFullscreen;
-    requestFullscreen.call(eShoot);
-  }
-});
 window.addEventListener('resize', adjust);
 
 /* ==== Primitives ==== */

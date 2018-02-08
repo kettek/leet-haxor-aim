@@ -23,7 +23,7 @@ canvas {
   cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADAQMAAABs5if8AAAABlBMVEUAawDzIrXgvjM5AAAAAXRSTlMAQObYZgAAAA5JREFUCNdjcGBYwOAAAANmASGj+tqfAAAAAElFTkSuQmCC'), crosshair;
 }
 
-#settings {
+#settings, #scoreboard {
   position: absolute; top: 0; left: 0;
   width: 100%; height: 100%;
   display: block;
@@ -36,18 +36,27 @@ canvas {
   font-size: 3vmin;
 }
 
-#settings > fieldset {
+fieldset > div {
+  flex: 1;
   display: flex;
+  overflow: auto;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  height: 80%;
+}
+fieldset > div > fieldset {
+  min-height: min-content;
+}
+
+#settings > fieldset, #scoreboard > fieldset {
+  display: flex;
+
   border: 0.5vmin solid #22010f;
   background: #22010f;
   overflow: hidden;
   height: auto;
   transition: all 0.5s ease;
 }
-#settings > fieldset > legend {
+#settings > fieldset > legend, #scoreboard > fieldset > legend {
   padding-top: 1vmin;
   font-size: 10vmin;
   color: #660f33;
@@ -55,30 +64,21 @@ canvas {
   user-select: none;
   cursor: pointer;
 }
-#settings > div {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow: auto;
-  height: auto;
-}
 
-#settings > fieldset.focused {
+#settings > fieldset.focused, #scoreboard > fieldset.focused {
   border-color: #dd3399;
   background: #660f33;
   flex: 1;
 }
-#settings > fieldset.focused > legend {
+#settings > fieldset.focused > legend, #scoreboard > fieldset.focused > legend {
   color: #dd3399;
   text-shadow: 0.1vmin 0.25vmin 1vmin #22010f;
 }
 
-#settings fieldset {
+#settings fieldset, #scoreboard fieldset {
   margin: 1vmin;
 }
-#settings input, #settings button {
+#settings input, #settings button, #scoreboard input, #scoreboard button {
   padding: 1vmin;
   font-size: 4vmin;
   font-family: 'VT323', monospace;

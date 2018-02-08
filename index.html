@@ -13,68 +13,74 @@
   <div id='settings'>
     <fieldset id="mode-target">
       <legend>Mouse Accuracy</legend>
-      <fieldset>
-        <legend>Target Spawnrate (milliseconds)</legend>
-        <input name='settings-spawnrate' type='number' value='750' min='10' max='10000'>
-        <button onclick='setSetting("spawnrate", 1500)'>slow</button>
-        <button onclick='setSetting("spawnrate", 750)'>medium</button>
-        <button onclick='setSetting("spawnrate", 375)'>fast</button>
-      </fieldset>
-      <fieldset>
-        <legend>Target Lifetime (seconds)</legend>
-        <input name='settings-lifetime' type='number' value='3' min='0.100' max='10'>
-        <button onclick='setSetting("lifetime", 5.000)'>slow</button>
-        <button onclick='setSetting("lifetime", 3.000)'>medium</button>
-        <button onclick='setSetting("lifetime", 1.000)'>fast</button>
-      </fieldset>
-      <fieldset>
-        <legend>Target Size (percentage)</legend>
-        <input name='settings-size' type='number' value='5' min='10' max='100'>
-        <button onclick='setSetting("size", 2)'>small</button>
-        <button onclick='setSetting("size", 5)'>medium</button>
-        <button onclick='setSetting("size", 10)'>large</button>
-      </fieldset>
-      <fieldset>
-        <legend>Game Length (seconds)</legend>
-        <input name='settings-length' type='number' value='15' min='10' max='3600'>
-        <button onclick='setSetting("length", 5)'>short</button>
-        <button onclick='setSetting("length", 15)'>medium</button>
-        <button onclick='setSetting("length", 30)'>long</button>
-      </fieldset>
+      <div>
+        <fieldset>
+          <legend>Target Spawnrate (milliseconds)</legend>
+          <input name='settings-spawnrate' type='number' value='750' min='10' max='10000'>
+          <button onclick='setSetting("spawnrate", 1500)'>slow</button>
+          <button onclick='setSetting("spawnrate", 750)'>medium</button>
+          <button onclick='setSetting("spawnrate", 375)'>fast</button>
+        </fieldset>
+        <fieldset>
+          <legend>Target Lifetime (seconds)</legend>
+          <input name='settings-lifetime' type='number' value='3' min='0.100' max='10'>
+          <button onclick='setSetting("lifetime", 5.000)'>slow</button>
+          <button onclick='setSetting("lifetime", 3.000)'>medium</button>
+          <button onclick='setSetting("lifetime", 1.000)'>fast</button>
+        </fieldset>
+        <fieldset>
+          <legend>Target Size (percentage)</legend>
+          <input name='settings-size' type='number' value='5' min='10' max='100'>
+          <button onclick='setSetting("size", 2)'>small</button>
+          <button onclick='setSetting("size", 5)'>medium</button>
+          <button onclick='setSetting("size", 10)'>large</button>
+        </fieldset>
+        <fieldset>
+          <legend>Game Length (seconds)</legend>
+          <input name='settings-length' type='number' value='15' min='10' max='3600'>
+          <button onclick='setSetting("length", 5)'>short</button>
+          <button onclick='setSetting("length", 15)'>medium</button>
+          <button onclick='setSetting("length", 30)'>long</button>
+        </fieldset>
+      </div>
     </fieldset>
     <fieldset id="mode-track">
       <legend>Mouse Tracking</legend>
-      <fieldset>
-        <legend>Target Speed</legend>
-        <input name='settings-speed' type='number' value='750' min='10' max='10000'>
-        <button onclick='setSetting("speed", 1)'>slow</button>
-        <button onclick='setSetting("speed", 5)'>medium</button>
-        <button onclick='setSetting("speed", 15)>fast</button>
-      </fieldset>
+      <div>
+        <fieldset>
+          <legend>Target Speed</legend>
+          <input name='settings-speed' type='number' value='750' min='10' max='10000'>
+          <button onclick='setSetting("speed", 1)'>slow</button>
+          <button onclick='setSetting("speed", 5)'>medium</button>
+          <button onclick='setSetting("speed", 15)'>fast</button>
+        </fieldset>
+      </div>
     </fieldset>
     <fieldset id="mode-response">
       <legend>Reflex Time</legend>
-      <fieldset>
-        <legend>Target Size (percentage)</legend>
-        <input name='settings-size' type='number' value='5' min='10' max='100'>
-        <button onclick='setSetting("size", 2)'>small</button>
-        <button onclick='setSetting("size", 5)'>medium</button>
-        <button onclick='setSetting("size", 10)'>large</button>
-      </fieldset>
-      <fieldset>
-        <legend>Delay</legend>
-        <input id='settings-delay' type='number' value='750' min='10' max='10000'>
-        <button onclick='setSetting("delay", 1)'>slow</button>
-        <button onclick='setSetting("delay", 5)'>medium</button>
-        <button onclick='setSetting("delay", 15)'>fast</button>
-      </fieldset>
-      <fieldset>
-        <legend>Randomization</legend>
-        <input id='settings-random' type='number' value='1.5' min='0.0' max='1.5'>
-        <button onclick='setSetting("random", 1.0)'>minor</button>
-        <button onclick='setSetting("random", 2.5)'>medium</button>
-        <button onclick='setSetting("random", 5.0)'>major</button>
-      </fieldset>
+      <div>
+        <fieldset>
+          <legend>Target Size (percentage)</legend>
+          <input name='settings-size' type='number' value='5' min='10' max='100'>
+          <button onclick='setSetting("size", 2)'>small</button>
+          <button onclick='setSetting("size", 5)'>medium</button>
+          <button onclick='setSetting("size", 10)'>large</button>
+        </fieldset>
+        <fieldset>
+          <legend>Delay</legend>
+          <input id='settings-delay' type='number' value='750' min='10' max='10000'>
+          <button onclick='setSetting("delay", 1)'>slow</button>
+          <button onclick='setSetting("delay", 5)'>medium</button>
+          <button onclick='setSetting("delay", 15)'>fast</button>
+        </fieldset>
+        <fieldset>
+          <legend>Randomization</legend>
+          <input id='settings-random' type='number' value='1.5' min='0.0' max='1.5'>
+          <button onclick='setSetting("random", 1.0)'>minor</button>
+          <button onclick='setSetting("random", 2.5)'>medium</button>
+          <button onclick='setSetting("random", 5.0)'>major</button>
+        </fieldset>
+      </div>
     </fieldset>
     <button id='settings-go'>gogogo!</button>
   </div>
@@ -82,6 +88,17 @@
     <div id='hud-hits'><div class='text'></div></div>
     <div id='hud-misses'><div class='text'></div></div>
     <div id='hud-lost'><div class='text'></div></div>
+  </div>
+  <div id='scoreboard'>
+    <fieldset class='focused'>
+      <legend>Score</legend>
+      <div>Hits <span id='scoreboard-hits'></span> <span id='scoreboard-hits-percentage'></span></div>
+      <div>Losses <span id='scoreboard-losses'></span> <span id='scoreboard-losses-percentage'></span></div>
+      <div>Misses <span id='scoreboard-misses'></span> <span id='scoreboard-misses-percentage'></span></div>
+      <hr>
+      <span id='scoreboard-hittime'></span> Time between hits
+    </fieldset>
+    <button id='scoreboard-go'>k.</button>
   </div>
 </div>
 </body>
