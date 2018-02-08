@@ -6,17 +6,17 @@ var eHudHits    = document.getElementById('hud-hits');
 var eHudMisses  = document.getElementById('hud-misses');
 var eHudLost    = document.getElementById('hud-lost');
 var eSettings   = document.getElementById('settings');
+var eSettingsModes = [];
+
 var eSettingsSpawnrate  = document.getElementById('settings-spawnrate');
-    eSettingsSpawnrate.addEventListener('change', function(e) { lCreateRate = parseFloat(eSettingsSpawnrate.value) });
 var eSettingsLifetime   = document.getElementById('settings-lifetime');
-    eSettingsLifetime.addEventListener('change', function(e) { lAliveTime = parseFloat(eSettingsLifetime.value) });
 var eSettingsLength     = document.getElementById('settings-length');
-    eSettingsLength.addEventListener('change', function(e) { lTargetTime = parseFloat(eSettingsLength.value)*1000 });
 var eSettingsGo         = document.getElementById('settings-go');
-    eSettingsGo.addEventListener('click', function(e) { hideSettings(); showHud(); start(); });
 
 var lAnimationFrame;
 var lCtx            = eShoot.getContext('2d');
+
+var lSelectedMode   = '';
 
 var lTargetTime     = 15000;
 var lCreateRate     = 750;
@@ -30,6 +30,51 @@ var lHitCount, lLostCount, lMissCount;
 var lStartTime, lLastTime, lCurrentTime;
 var lLastCreate;
 
+var lModes = {
+  'mode-track': {
+    start: function() { },
+    reset: function() { },
+    loop: function(d) { },
+    draw: function(d) { },
+  },
+  'mode-target': {
+    start: function() { },
+    reset: function() { },
+    loop: function(d) { },
+    draw: function(d) { },
+  }
+};
+
+// Do some initial setup for page elements.
+{
+  eSettingsSpawnrate.addEventListener('change', function(e) { lCreateRate = parseFloat(eSettingsSpawnrate.value) });
+  eSettingsLifetime.addEventListener('change', function(e) { lAliveTime = parseFloat(eSettingsLifetime.value) });
+  eSettingsLength.addEventListener('change', function(e) { lTargetTime = parseFloat(eSettingsLength.value)*1000 });
+  eSettingsGo.addEventListener('click', function(e) { hideSettings(); showHud(); start(); });
+
+  var c = eSettings.getElementsByTagName('FIELDSET');
+  for (var i = 0; i < c.length; i++) {
+    if (c[i].id.indexOf("mode-") != -1) {
+      eSettingsModes.push(c[i]);
+      if (i != 0) {
+        showFieldset(c[i]);
+        lSelectedMode = c[i].id;
+      } else {
+        hideFieldset(c[i]);
+      }
+      c[i].addEventListener('click', (function(self) { return function(e) {
+        for (var i = 0; i < eSettingsModes.length; i++) {
+          if (eSettingsModes[i] !== self) {
+            hideFieldset(eSettingsModes[i]);
+          } else {
+            showFieldset(self);
+          }
+        }
+      }})(c[i]));
+    }
+  }
+  hideHud(); showSettings();
+}
 /* ==== Core Logic ==== */
 function showHud() {
   eHud.style.display = '';
@@ -42,6 +87,22 @@ function showSettings() {
 }
 function hideSettings() {
   eSettings.style.display = 'none';
+}
+function hideFieldset(target) {
+  for (var j = 0; j < target.children.length; j++) {
+    if (target.children[j].tagName != 'LEGEND') {
+      target.children[j].style.display = 'none';
+    }
+  }
+  target.className = '';
+}
+function showFieldset(target) {
+  for (var j = 0; j < target.children.length; j++) {
+    if (target.children[j].tagName != 'LEGEND') {
+      target.children[j].style.display = '';
+    }
+  }
+  target.className = 'focused';
 }
 
 function adjust() {

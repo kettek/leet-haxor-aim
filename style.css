@@ -31,9 +31,37 @@ canvas {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   font-size: 2vmin;
 }
+
+#settings > fieldset {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 0.5vmin solid #22010f;
+  background: #22010f;
+  overflow: hidden;
+  height: auto;
+  transition: all 0.5s ease;
+}
+#settings > fieldset > legend {
+  padding-top: 1vmin;
+  font-size: 5vmin;
+  color: #660f33;
+}
+
+#settings > fieldset.focused {
+  border-color: #dd3399;
+  background: #660f33;
+  flex: 1;
+}
+#settings > fieldset.focused > legend {
+  color: #dd3399;
+  text-shadow: 0.1vmin 0.25vmin 1vmin #22010f;
+}
+
 #settings fieldset {
   margin: 1vmin;
 }

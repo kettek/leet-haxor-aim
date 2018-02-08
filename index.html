@@ -10,26 +10,39 @@
 <div id='container'>
   <canvas id='shoot'></canvas>
   <div id='settings'>
-    <fieldset>
-      <legend>Target Spawnrate</legend>
-      <input id='settings-spawnrate' type='number' value='750' min='10' max='10000'>
-      <button onclick='var el = document.getElementById("settings-spawnrate");el.value=1500;el.dispatchEvent(new Event("change"))'>slow</button>
-      <button onclick='var el = document.getElementById("settings-spawnrate");el.value=750;el.dispatchEvent(new Event("change"))'>medium</button>
-      <button onclick='var el = document.getElementById("settings-spawnrate");el.value=375;el.dispatchEvent(new Event("change"))'>fast</button>
+    <fieldset id="mode-track">
+      <legend>Tracking</legend>
+      <fieldset>
+        <legend>Target Speed</legend>
+        <input id='settings-speed' type='number' value='750' min='10' max='10000'>
+        <button onclick='var el = document.getElementById("settings-speed");el.value=1;el.dispatchEvent(new Event("change"))'>slow</button>
+        <button onclick='var el = document.getElementById("settings-speed");el.value=5;el.dispatchEvent(new Event("change"))'>medium</button>
+        <button onclick='var el = document.getElementById("settings-speed");el.value=15;el.dispatchEvent(new Event("change"))'>fast</button>
+      </fieldset>
     </fieldset>
-    <fieldset>
-      <legend>Target Lifetime</legend>
-      <input id='settings-lifetime' type='number' value='3000' min='10' max='10000'>
-      <button onclick='var el = document.getElementById("settings-lifetime");el.value=5000;el.dispatchEvent(new Event("change"))'>slow</button>
-      <button onclick='var el = document.getElementById("settings-lifetime");el.value=3000;el.dispatchEvent(new Event("change"))'>medium</button>
-      <button onclick='var el = document.getElementById("settings-lifetime");el.value=1000;el.dispatchEvent(new Event("change"))'>fast</button>
-    </fieldset>
-    <fieldset>
-      <legend>Game Length</legend>
-      <input id='settings-length' type='number' value='15' min='10' max='3600'>
-      <button onclick='var el = document.getElementById("settings-length");el.value=5;el.dispatchEvent(new Event("change"))'>short</button>
-      <button onclick='var el = document.getElementById("settings-length");el.value=15;el.dispatchEvent(new Event("change"))'>medium</button>
-      <button onclick='var el = document.getElementById("settings-length");el.value=30;el.dispatchEvent(new Event("change"))'>long</button>
+    <fieldset id="mode-target">
+      <legend>Travel & Response</legend>
+      <fieldset>
+        <legend>Target Spawnrate</legend>
+        <input id='settings-spawnrate' type='number' value='750' min='10' max='10000'>
+        <button onclick='var el = document.getElementById("settings-spawnrate");el.value=1500;el.dispatchEvent(new Event("change"))'>slow</button>
+        <button onclick='var el = document.getElementById("settings-spawnrate");el.value=750;el.dispatchEvent(new Event("change"))'>medium</button>
+        <button onclick='var el = document.getElementById("settings-spawnrate");el.value=375;el.dispatchEvent(new Event("change"))'>fast</button>
+      </fieldset>
+      <fieldset>
+        <legend>Target Lifetime</legend>
+        <input id='settings-lifetime' type='number' value='3000' min='10' max='10000'>
+        <button onclick='var el = document.getElementById("settings-lifetime");el.value=5000;el.dispatchEvent(new Event("change"))'>slow</button>
+        <button onclick='var el = document.getElementById("settings-lifetime");el.value=3000;el.dispatchEvent(new Event("change"))'>medium</button>
+        <button onclick='var el = document.getElementById("settings-lifetime");el.value=1000;el.dispatchEvent(new Event("change"))'>fast</button>
+      </fieldset>
+      <fieldset>
+        <legend>Game Length</legend>
+        <input id='settings-length' type='number' value='15' min='10' max='3600'>
+        <button onclick='var el = document.getElementById("settings-length");el.value=5;el.dispatchEvent(new Event("change"))'>short</button>
+        <button onclick='var el = document.getElementById("settings-length");el.value=15;el.dispatchEvent(new Event("change"))'>medium</button>
+        <button onclick='var el = document.getElementById("settings-length");el.value=30;el.dispatchEvent(new Event("change"))'>long</button>
+      </fieldset>
     </fieldset>
     <button id='settings-go'>gogogo!</button>
   </div>
