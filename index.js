@@ -100,7 +100,8 @@ function showScoreboard() {
     for (var i = 0; i < lHitTimes.length; i++) {
       total += lHitTimes[i];
     }
-    eScoreHittime.innerText = Math.round(total / lHitTimes.length) + 'ms';
+    total = lHitTimes.length > 0 ? Math.round(total / lHitTimes.length) : 0;
+    eScoreHittime.innerText = total + 'ms';
   }
   eScoreboard.style.display = '';
 }

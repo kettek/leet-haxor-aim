@@ -107,3 +107,75 @@ input.seconds {
 #hud-lost {
   color: red;
 }
+
+fieldset.focused > legend span {
+  animation-duration: 5s;
+  animation-name: rainbowww;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+legend span:nth-child(2) {
+  animation-delay: -8.0s;
+}
+legend span:nth-child(3) {
+  animation-delay: -7.5s;
+}
+legend span:nth-child(4) {
+  animation-delay: -7.0s;
+}
+legend span:nth-child(5) {
+  animation-delay: -6.5s;
+}
+legend span:nth-child(6) {
+  animation-delay: -6.0s;
+}
+legend span:nth-child(7) {
+  animation-delay: -5.5s;
+}
+legend span:nth-child(8) {
+  animation-delay: -5.0s;
+}
+legend span:nth-child(9) {
+  animation-delay: -4.5s;
+}
+legend span:nth-child(10) {
+  animation-delay: -4.0s;
+}
+legend span:nth-child(11) {
+  animation-delay: -3.5s;
+}
+legend span:nth-child(11) {
+  animation-delay: -3.0s;
+}
+legend span:nth-child(11) {
+  animation-delay: -2.5s;
+}
+legend span:nth-child(12) {
+  animation-delay: -2.0s;
+}
+legend span:nth-child(13) {
+  animation-delay: -1.0s;
+}
+legend span:nth-child(13) {
+  animation-delay: -0.5s;
+}
+
+@keyframes rainbowww {
+  0% {
+    color: #f00;
+    border-color: #f00;
+  }
+  33% {
+    color: #0f0;
+    border-color: #0f0;
+  }
+  66% {
+    color: #00f;
+    border-color: #00f;
+  }
+  100% {
+    color: #f00;
+    border-color: #f00;
+  }
+}
