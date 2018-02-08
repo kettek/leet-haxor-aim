@@ -15,10 +15,13 @@ var eSettingsGo         = document.getElementById('settings-go');
 
 var lAnimationFrame;
 var lCtx            = eShoot.getContext('2d');
+var lPx             = 1.0;
+var lPy             = 1.0;
+var lPs             = 1.0;
 
 var lSelectedMode   = '';
 
-var lMaxSize        = 30;
+var lMaxSize        = 5;
 
 var lRunning        = false;
 var lCircles        = [];
@@ -130,6 +133,9 @@ function showFieldset(target) {
 function adjust() {
   eShoot.width = eShoot.parentNode.clientWidth;
   eShoot.height = eShoot.parentNode.clientHeight;
+  lPx = eShoot.width / 100;
+  lPy = eShoot.height / 100;
+  lPs = lPx > lPy ? lPx : lPy;
 }
 
 function sync() {
@@ -193,12 +199,12 @@ function createCircle() {
   if (window.crypto) {
     var ran = new Uint32Array(2);
     window.crypto.getRandomValues(ran);
-    x = lMaxSize/2 + ran[0] % (eShoot.width - lMaxSize);
-    y = lMaxSize/2 + ran[1] % (eShoot.height - lMaxSize);
+    x = lMaxSize/2 + ran[0] % (100 - lMaxSize);
+    y = lMaxSize/2 + ran[1] % (100 - lMaxSize);
   } else {
     var min = Math.ceil(lMaxSize/2);
-    var maxW = Math.floor(eShoot.width - lMaxSize);
-    var maxH = Math.floor(eShoot.height - lMaxSize);
+    var maxW = Math.floor(100 - lMaxSize);
+    var maxH = Math.floor(100 - lMaxSize);
     x = Math.floor(Math.random() * (maxW - min + 1)) + min;
     y = Math.floor(Math.random() * (maxH - min + 1)) + min;
   }
@@ -249,7 +255,7 @@ function Circle(x, y, maxSize, growTime) {
   this.growTime = growTime || 2000;
   this.growth = 0;
   this.size = 0;
-  this.maxSize = maxSize || 100;
+  this.maxSize = maxSize || 5;
   this.remove = false;
 }
 Circle.prototype.step = function(time) {
@@ -267,14 +273,14 @@ Circle.prototype.step = function(time) {
 }
 Circle.prototype.draw = function() {
   lCtx.beginPath();
-  lCtx.arc(this.x, this.y, this.size, 0, (Math.PI/180)*360);
+  lCtx.arc(this.x*lPx, this.y*lPy, this.size*lPs, 0, (Math.PI/180)*360);
   lCtx.closePath();
   lCtx.fillStyle = "yellow";
   lCtx.fill();
 }
 Circle.prototype.collision = function(x, y) {
-  var distance = Math.sqrt(Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2));
-  if (distance < 1 + this.size) {
+  var distance = Math.sqrt(Math.pow(x - (this.x*lPx), 2) + Math.pow(y - (this.y*lPy), 2));
+  if (distance < 1 + this.size*lPs) {
     return true;
   }
   return false;
