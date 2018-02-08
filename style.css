@@ -50,6 +50,7 @@ canvas {
   padding-top: 1vmin;
   font-size: 5vmin;
   color: #660f33;
+  transition: all 0.5s ease;
 }
 
 #settings > fieldset.focused {
