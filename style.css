@@ -35,6 +35,9 @@ canvas {
   align-items: stretch;
   font-size: 3vmin;
 }
+#scoreboard {
+  font-size: 7vmin;
+}
 
 fieldset > div {
   flex: 1;
