@@ -211,6 +211,14 @@ function tapHandler(e) {
 }
 eShoot.addEventListener('touchstart', tapHandler);
 eShoot.addEventListener('mousedown', tapHandler);
+function moveHandler(e) {
+  e.preventDefault();
+  var x = e.clientX || e.touches[0].clientX;
+  var y = e.clientY || e.touches[0].clientY;
+  if (gModes[gSelectedMode].move) gModes[gSelectedMode].move(x, y);
+}
+eShoot.addEventListener('touchmove', moveHandler);
+eShoot.addEventListener('mousemove', moveHandler);
 window.addEventListener('resize', adjust);
 
 /* ==== Primitives ==== */
@@ -321,7 +329,20 @@ gModes['target'] = (function(){
 })();
 /* == Track Mode == */
 gModes['track'] = (function() {
-  return {};
+  var lCircle = null;
+
+  return {
+    loop: function(delta) {
+    },
+    reset: function() {
+      lCircle = null;
+    },
+    move: function(x, y) {
+      if (lCircle.collision(x, y)) {
+      } else {
+      }
+    }
+  };
 })();
 /* == Reflex Mode == */
 gModes['reflex'] = (function() {
