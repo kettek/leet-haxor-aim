@@ -166,11 +166,13 @@ function reset() {
   gStartTime = gLastTime = gCurrentTime = performance.now();
   gHitCount = gLostCount = gMissCount = 0;
   gHitTimes = [];
+  if (gModes[gSelectedMode].reset) gModes[gSelectedMode].reset();
 }
 
 function start() {
   reset();
   gRunning = true;
+  if (gModes[gSelectedMode].start) gModes[gSelectedMode].start();
   gAnimationFrame = window.requestAnimationFrame(loop);
 }
 
